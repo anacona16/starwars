@@ -1,6 +1,12 @@
 {# templates/login/index.html.twig #}
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link href="{{ asset('assets/css/login.css') }}" rel="stylesheet"/>
+{% endblock %}
+
 {% block body %}
     <main class="form-signin">
         <form action="{{ path('login') }}" method="post">
