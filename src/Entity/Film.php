@@ -86,14 +86,6 @@ class Film
     }
 
     /**
-     * @return string|null
-     */
-    public function __toString()
-    {
-        return $this->getTitle();
-    }
-
-    /**
      * @return Collection|Character[]
      */
     public function getCharacters(): Collection
@@ -118,5 +110,13 @@ class Film
         }
 
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function __toString()
+    {
+        return $this->getTitle();
     }
 }
