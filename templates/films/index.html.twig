@@ -19,7 +19,9 @@
                     <tbody>
                     {% for film in films %}
                         <tr>
-                            <td>{{ film.title }}</td>
+                            <td>
+                                <a href="{{ path('films_detail', {'id': film.id}) }}">{{ film.title }}</a>
+                            </td>
                             <td>{{ film.releaseDate|date }}</td>
                         </tr>
                     {% else %}
