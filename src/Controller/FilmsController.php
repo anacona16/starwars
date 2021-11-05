@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\DataNegotiation\FilmsDataNegotiation;
+use App\Entity\Film;
 use Craue\ConfigBundle\Util\Config;
 use Knp\Component\Pager\Event\Subscriber\Paginate\Callback\CallbackPagination;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,6 +40,16 @@ class FilmsController extends AbstractController
 
         return $this->render('films/index.html.twig', [
             'films' => $pagination,
+        ]);
+    }
+
+    /**
+     * @Route("/films/{id}", name="films_detail")
+     */
+    public function detail(Film $film) : Response
+    {
+        return $this->render('films/detail.html.twig', [
+            'film' => $film,
         ]);
     }
 }
