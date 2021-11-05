@@ -18,4 +18,24 @@ class FilmRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Film::class);
     }
+
+    /**
+     * Returns Films from DB.
+     *
+     * @param $limit
+     * @param $page
+     * @return int|mixed|string
+     */
+    public function findAllPaginated($limit, $page)
+    {
+        return $this
+            ->createQueryBuilder('film')
+            ->where('film.group_page = :group_page')
+            ->setParameters([
+                'group_page' => $page,
+            ])
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -9,35 +9,28 @@
             <div class="col">
                 <h1>Films</h1>
 
-                <table class="table">
+                <table class="table table-striped table-hover">
                     <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Released date</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
+                    {% for film in films %}
+                        <tr>
+                            <td>{{ film.title }}</td>
+                            <td>{{ film.releaseDate|date }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="2">Impossible to retrieve the data.</td>
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
+
+                {{ knp_pagination_render(films) }}
             </div>
         </div>
     </div>
