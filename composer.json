@@ -9,6 +9,7 @@
         "ext-iconv": "*",
         "ext-json": "*",
         "composer/package-versions-deprecated": "1.11.99.4",
+        "craue/config-bundle": "^2.5",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.4",
         "doctrine/doctrine-migrations-bundle": "^3.2",
