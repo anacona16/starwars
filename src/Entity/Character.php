@@ -30,6 +30,16 @@ class Character
     private $gender;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $url;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $group_page;
+
+    /**
      * @ORM\ManyToMany(targetEntity=Film::class, inversedBy="characters")
      */
     private $films;
@@ -64,6 +74,30 @@ class Character
     public function setGender(?string $gender): self
     {
         $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(string $url): self
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    public function getGroupPage(): ?int
+    {
+        return $this->group_page;
+    }
+
+    public function setGroupPage(?int $group_page): self
+    {
+        $this->group_page = $group_page;
 
         return $this;
     }
