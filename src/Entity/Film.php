@@ -35,6 +35,16 @@ class Film
     private $director;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $url;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $group_page;
+
+    /**
      * @ORM\ManyToMany(targetEntity=Character::class, mappedBy="films")
      */
     private $characters;
@@ -81,6 +91,30 @@ class Film
     public function setDirector(string $director): self
     {
         $this->director = $director;
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(string $url): self
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    public function getGroupPage(): ?int
+    {
+        return $this->group_page;
+    }
+
+    public function setGroupPage(int $group_page): self
+    {
+        $this->group_page = $group_page;
 
         return $this;
     }
