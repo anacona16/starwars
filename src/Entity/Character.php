@@ -25,6 +25,11 @@ class Character
     private $name;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $gender;
+
+    /**
      * @ORM\ManyToMany(targetEntity=Film::class, inversedBy="characters")
      */
     private $films;
@@ -47,6 +52,18 @@ class Character
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?string $gender): self
+    {
+        $this->gender = $gender;
 
         return $this;
     }
