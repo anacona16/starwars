@@ -40,7 +40,7 @@ class Film
     private $url;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="smallint", nullable=true)
      */
     private $group_page;
 
