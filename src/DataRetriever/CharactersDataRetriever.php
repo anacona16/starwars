@@ -105,8 +105,6 @@ class CharactersDataRetriever
                 $responseJsonResults = $responseJson->results;
 
                 $mapper = new JsonMapper();
-                $mapper->classMap[\DateTimeInterface::class] = \DateTime::class;
-
                 $mappedResults = $mapper->mapArray($responseJsonResults, [], Character::class);
 
                 // Updating the requested pages

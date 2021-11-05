@@ -105,8 +105,6 @@ class FilmsDataRetriever
                 $responseJsonResults = $responseJson->results;
 
                 $mapper = new JsonMapper();
-                $mapper->classMap[\DateTimeInterface::class] = \DateTime::class;
-
                 $mappedResults = $mapper->mapArray($responseJsonResults, [], Film::class);
 
                 // Updating the requested pages

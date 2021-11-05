@@ -71,12 +71,12 @@ class Film
         return $this;
     }
 
-    public function getReleaseDate(): ?\DateTimeInterface
+    public function getReleaseDate(): ?\DateTime
     {
         return $this->release_date;
     }
 
-    public function setReleaseDate(\DateTimeInterface $release_date): self
+    public function setReleaseDate(\DateTime $release_date): self
     {
         $this->release_date = $release_date;
 
