@@ -18,4 +18,25 @@ class CharacterRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Character::class);
     }
+
+    /**
+     * Returns Characters from DB.
+     *
+     * @param $limit
+     * @param $page
+     * @return int|mixed|string
+     */
+    public function findAllPaginated($limit, $page)
+    {
+        return $this
+            ->createQueryBuilder('character')
+            ->where('character.group_page = :group_page')
+            ->setParameters([
+                'group_page' => $page,
+            ])
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
