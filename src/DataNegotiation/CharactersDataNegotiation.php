@@ -59,8 +59,8 @@ class CharactersDataNegotiation
         $countCharactersAPI = $this->count(false);
         $requestedPages = explode('|', $requestedPages);
 
-        // If the current requested pages has not been requested in the API or the results incremented then we make
-        // the request to the API, otherwise we get the info from database.
+        // If the current requested page has not been requested in the API or the results incremented then we make
+        // the request to the API, otherwise we get the info from the database.
         if (!in_array($page, $requestedPages) || $countCharactersAPI < 10) {
             /**
              * @TODO This could be handle in a better way, but the API does not provide to much info like identifiers.
