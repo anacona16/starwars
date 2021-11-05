@@ -11,8 +11,8 @@ class ConfigSettingFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $settings = [
-            'api_films_queried_pages' => null,
-            'api_characters_queried_pages' => null,
+            'api_films_requested_pages' => null,
+            'api_characters_requested_pages' => null,
         ];
 
         foreach ($settings as $_setting => $value) {
