@@ -82,6 +82,9 @@ class CharactersDataNegotiation
                 if (null === $checkCharacter) {
                     $character->setGroupPage($page);
                     $this->entityManger->persist($character);
+                } elseif (empty($checkCharacter->getGroupPage())) {
+                    $checkCharacter->setGroupPage($page);
+                    $this->entityManger->persist($checkCharacter);
                 }
             }
 
