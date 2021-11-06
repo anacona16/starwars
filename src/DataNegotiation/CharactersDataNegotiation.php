@@ -134,7 +134,7 @@ class CharactersDataNegotiation
             return $characterInStorage;
         }
 
-        $character = $this->charactersDataRetriever->getMappedByUrl($url);
+        $character = $this->charactersDataRetriever->getByUrl($url, true);
 
         if (false !== $character) {
             $this->entityManger->persist($character);

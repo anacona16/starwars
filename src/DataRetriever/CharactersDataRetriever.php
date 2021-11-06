@@ -130,7 +130,7 @@ class CharactersDataRetriever
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
      */
-    public function getMappedByUrl($url)
+    public function getByUrl($url, $mapped = true)
     {
         try {
             $response = $this->basicClient->getClient()->request('GET', '', [
@@ -140,7 +140,12 @@ class CharactersDataRetriever
             if (200 === $response->getStatusCode()) {
                 $responseJson = json_decode($response->getContent());
 
+                if (false === $mapped) {
+                    return $responseJson;
+                }
+
                 $mapper = new JsonMapper();
+
                 return $mapper->map($responseJson, new Character());
             }
         } catch (TransportExceptionInterface $e) {
