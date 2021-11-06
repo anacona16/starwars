@@ -117,4 +117,33 @@ class FilmsDataRetriever
 
         return [];
     }
+
+    /**
+     * Returns the Array response from the API.
+     *
+     * @param $url
+     *
+     * @return array
+     *
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     */
+    public function getByUrl($url)
+    {
+        try {
+            $response = $this->basicClient->getClient()->request('GET', '', [
+                'base_uri' => $url,
+            ]);
+
+            if (200 === $response->getStatusCode()) {
+                return $response->toArray();
+            }
+
+        } catch (TransportExceptionInterface $e) {
+        }
+
+        return [];
+    }
 }
