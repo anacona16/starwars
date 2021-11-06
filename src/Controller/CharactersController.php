@@ -44,6 +44,11 @@ class CharactersController extends AbstractController
      */
     public function detail(Character $character, CharactersDataNegotiation $charactersDataNegotiation)
     {
+        // Checking if the species list is empty, if so, we try to get the info from the API.
+        if (true === $character->getSpecies()->isEmpty()) {
+            $character = $charactersDataNegotiation->updateSpecies($character);
+        }
+
         return $this->render('characters/detail.html.twig', [
             'character' => $character,
         ]);

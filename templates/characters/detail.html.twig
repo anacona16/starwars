@@ -15,6 +15,8 @@
                     </blockquote>
                 </figure>
 
+                <hr>
+
                 <h5>Films</h5>
                 <ul class="list-group list-group-flush">
                     {% for film in character.films %}
@@ -23,6 +25,24 @@
                         </li>
                     {% else %}
                         <li class="list-group-item">There is not info about characters.</li>
+                    {% endfor %}
+                </ul>
+
+                <hr>
+
+                <h5>Species</h5>
+                <ul class="list-group list-group-flush">
+                    {% for specie in character.species %}
+                        <li class="list-group-item">
+                            Name <strong>{{ specie.name }}</strong><br>
+                            Classification <strong>{{ specie.classification }}</strong><br>
+                            Designation <strong>{{ specie.designation }}</strong><br>
+                            Skin colors <strong>{{ specie.skinColors }}</strong><br>
+                            Hair colors <strong>{{ specie.hairColors }}</strong><br>
+                            Eye colors <strong>{{ specie.hairColors }}</strong>
+                        </li>
+                    {% else %}
+                        <li class="list-group-item">There is not info about species.</li>
                     {% endfor %}
                 </ul>
             </div>

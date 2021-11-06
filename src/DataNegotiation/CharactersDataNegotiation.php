@@ -25,18 +25,26 @@ class CharactersDataNegotiation
     private $charactersDataRetriever;
 
     /**
+     * @var SpecieDataNegotiation
+     */
+    private $speciesDataNegotiation;
+
+    /**
      * @param EntityManagerInterface $entityManger
      * @param CharacterRepository $characterRepository
      * @param CharactersDataRetriever $charactersDataRetriever
+     * @param SpecieDataNegotiation $speciesDataNegotiation
      */
     public function __construct(
         EntityManagerInterface $entityManger,
         CharacterRepository $characterRepository,
-        CharactersDataRetriever $charactersDataRetriever
+        CharactersDataRetriever $charactersDataRetriever,
+        SpecieDataNegotiation $speciesDataNegotiation
     ) {
         $this->entityManger = $entityManger;
         $this->characterRepository = $characterRepository;
         $this->charactersDataRetriever = $charactersDataRetriever;
+        $this->speciesDataNegotiation = $speciesDataNegotiation;
     }
 
     /**
@@ -140,6 +148,31 @@ class CharactersDataNegotiation
             $this->entityManger->persist($character);
             $this->entityManger->flush();
         }
+
+        return $character;
+    }
+
+    /**
+     * Update the Species of the provided film.
+     *
+     * @param Character $character
+     *
+     * @return Character
+     */
+    public function updateSpecies(Character $character) : Character
+    {
+        $characterResponse = $this->charactersDataRetriever->getByUrl($character->getUrl(), false);
+        $characterResponseSpecies = $characterResponse->species ?? [];
+
+        foreach ($characterResponseSpecies as $characterResponse) {
+            $specieSaved = $this->speciesDataNegotiation->getByUrlAndSave($characterResponse);
+
+            if (false !== $specieSaved) {
+                $character->addSpecies($specieSaved);
+            }
+        }
+
+        $this->entityManger->flush();
 
         return $character;
     }
