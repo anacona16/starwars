@@ -107,4 +107,37 @@ class CharactersDataNegotiation
     {
         return (int) $this->charactersDataRetriever->count($all);
     }
+
+    /**
+     * Checks if the character was already saved into the database,
+     * if not, we request it from the API, and then we save it.
+     *
+     * @param $url
+     *
+     * @return Character|false|mixed|object
+     *
+     * @throws \JsonMapper_Exception
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     */
+    public function getByUrlAndSave($url)
+    {
+        $characterInStorage = $this->characterRepository->findOneBy([
+            'url' => $url,
+        ]);
+
+        if ($characterInStorage instanceof Character) {
+            return $characterInStorage;
+        }
+
+        $character = $this->charactersDataRetriever->getMappedByUrl($url);
+
+        if (false !== $character) {
+            $this->entityManger->persist($character);
+            $this->entityManger->flush();
+        }
+
+        return $character;
+    }
 }
