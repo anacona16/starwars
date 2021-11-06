@@ -46,8 +46,13 @@ class FilmsController extends AbstractController
     /**
      * @Route("/films/{id}", name="films_detail")
      */
-    public function detail(Film $film) : Response
+    public function detail(Film $film, FilmsDataNegotiation $filmsDataNegotiation) : Response
     {
+        // Checking if the character list is empty, if so, we try to get the info from the API.
+        if (true === $film->getCharacters()->isEmpty()) {
+            $film = $filmsDataNegotiation->updateCharacters($film);
+        }
+
         return $this->render('films/detail.html.twig', [
             'film' => $film,
         ]);
