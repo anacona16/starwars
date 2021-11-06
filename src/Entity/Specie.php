@@ -54,6 +54,11 @@ class Specie
      */
     private $characters;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $url;
+
     public function __construct()
     {
         $this->characters = new ArrayCollection();
@@ -161,18 +166,22 @@ class Specie
     }
 
     /**
-     * @return string
-     */
-    public function getResumen()
-    {
-        return $this->getName(). ' ' . $this->getClassification() . ' ' . $this->getDesignation();
-    }
-
-    /**
      * @return string|null
      */
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(string $url): self
+    {
+        $this->url = $url;
+
+        return $this;
     }
 }
