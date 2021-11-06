@@ -44,9 +44,15 @@ class Character
      */
     private $films;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Specie::class, mappedBy="characters")
+     */
+    private $species;
+
     public function __construct()
     {
         $this->films = new ArrayCollection();
+        $this->species = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -132,5 +138,32 @@ class Character
     public function __toString()
     {
         return $this->getName();
+    }
+
+    /**
+     * @return Collection|Specie[]
+     */
+    public function getSpecies(): Collection
+    {
+        return $this->species;
+    }
+
+    public function addSpecies(Specie $species): self
+    {
+        if (!$this->species->contains($species)) {
+            $this->species[] = $species;
+            $species->addCharacter($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSpecies(Specie $species): self
+    {
+        if ($this->species->removeElement($species)) {
+            $species->removeCharacter($this);
+        }
+
+        return $this;
     }
 }
