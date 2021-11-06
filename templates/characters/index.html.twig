@@ -19,7 +19,9 @@
                     <tbody>
                     {% for character in characters %}
                         <tr>
-                            <td>{{ character.name }}</td>
+                            <td>
+                                <a href="{{ path('characters_detail', {'id': character.id}) }}">{{ character.name }}</a>
+                            </td>
                             <td>{{ character.gender }}</td>
                         </tr>
                     {% else %}

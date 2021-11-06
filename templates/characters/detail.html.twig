@@ -1,28 +1,25 @@
 {# templates/films/index.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Films - {{ parent() }}{% endblock %}
+{% block title %}Characters - {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1>Film: {{ film.title }}</h1>
+                <h1>Character: {{ character.name }}</h1>
 
                 <figure>
                     <blockquote class="blockquote">
-                        <p>Director <strong>{{ film.director }}</strong></p>
+                        <p>Gender <strong>{{ character.gender }}</strong></p>
                     </blockquote>
-                    <figcaption class="blockquote-footer">
-                        Release date <strong>{{ film.releaseDate|date }}</strong>
-                    </figcaption>
                 </figure>
 
-                <h5>Characters</h5>
+                <h5>Films</h5>
                 <ul class="list-group list-group-flush">
-                    {% for character in film.characters %}
+                    {% for film in character.films %}
                         <li class="list-group-item">
-                            <a href="{{ path('characters_detail', {'id': character.id}) }}">{{ character.name }}</a>
+                            <a href="{{ path('films_detail', {'id': film.id}) }}">{{ film.title }}</a>
                         </li>
                     {% else %}
                         <li class="list-group-item">There is not info about characters.</li>

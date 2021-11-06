@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\DataNegotiation\CharactersDataNegotiation;
+use App\Entity\Character;
 use Craue\ConfigBundle\Util\Config;
 use Knp\Component\Pager\Event\Subscriber\Paginate\Callback\CallbackPagination;
 use Knp\Component\Pager\PaginatorInterface;
@@ -35,6 +36,16 @@ class CharactersController extends AbstractController
 
         return $this->render('characters/index.html.twig', [
             'characters' => $pagination,
+        ]);
+    }
+
+    /**
+     * @Route("/characters/{id}", name="characters_detail")
+     */
+    public function detail(Character $character, CharactersDataNegotiation $charactersDataNegotiation)
+    {
+        return $this->render('characters/detail.html.twig', [
+            'character' => $character,
         ]);
     }
 }
