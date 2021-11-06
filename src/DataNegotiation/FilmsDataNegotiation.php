@@ -25,18 +25,26 @@ class FilmsDataNegotiation
     private $filmsDataRetriever;
 
     /**
+     * @var CharactersDataNegotiation
+     */
+    private $charactersDataNegotiation;
+
+    /**
      * @param EntityManagerInterface $entityManger
      * @param FilmRepository $filmRepository
      * @param FilmsDataRetriever $filmsDataRetriever
+     * @param CharactersDataNegotiation $charactersDataNegotiation
      */
     public function __construct(
         EntityManagerInterface $entityManger,
         FilmRepository $filmRepository,
-        FilmsDataRetriever $filmsDataRetriever
+        FilmsDataRetriever $filmsDataRetriever,
+        CharactersDataNegotiation $charactersDataNegotiation
     ) {
         $this->entityManger = $entityManger;
         $this->filmRepository = $filmRepository;
         $this->filmsDataRetriever = $filmsDataRetriever;
+        $this->charactersDataNegotiation = $charactersDataNegotiation;
     }
 
     /**
@@ -88,6 +96,43 @@ class FilmsDataNegotiation
         }
 
         return $this->filmRepository->findAllPaginated($limit, $page);
+    }
+
+    /**
+     * Returns the API response based on the URL provided.
+     *
+     * @param $url
+     *
+     * @return array
+     */
+    public function getByUrl($url) : array
+    {
+        return $this->filmsDataRetriever->getByUrl($url);
+    }
+
+    /**
+     * Update the characters of the provided film.
+     *
+     * @param Film $film
+     *
+     * @return Film
+     */
+    public function updateCharacters(Film $film) : Film
+    {
+        $filmResponse = $this->getByUrl($film->getUrl());
+        $filmResponseCharacters = $filmResponse['characters'] ?? [];
+
+        foreach ($filmResponseCharacters as $characterResponse) {
+            $characterSaved = $this->charactersDataNegotiation->getByUrlAndSave($characterResponse);
+
+            if (false !== $characterSaved) {
+                $film->addCharacter($characterSaved);
+            }
+        }
+
+        $this->entityManger->flush();
+
+        return $film;
     }
 
     /**
