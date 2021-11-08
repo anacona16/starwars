@@ -122,15 +122,16 @@ class FilmsDataRetriever
      * Returns the Array response from the API.
      *
      * @param $url
+     * @param bool $mapped
      *
-     * @return array
+     * @return array|mixed|object
      *
+     * @throws \JsonMapper_Exception
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
      */
-    public function getByUrl($url)
+    public function getByUrl($url, $mapped = true)
     {
         try {
             $response = $this->basicClient->getClient()->request('GET', '', [
@@ -138,7 +139,15 @@ class FilmsDataRetriever
             ]);
 
             if (200 === $response->getStatusCode()) {
-                return $response->toArray();
+                $responseJson = json_decode($response->getContent());
+
+                if (false === $mapped) {
+                    return $responseJson;
+                }
+
+                $mapper = new JsonMapper();
+
+                return $mapper->map($responseJson, new Film());
             }
 
         } catch (TransportExceptionInterface $e) {

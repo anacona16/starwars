@@ -3,8 +3,11 @@
 namespace App\DataNegotiation;
 
 use App\DataRetriever\CharactersDataRetriever;
+use App\DataRetriever\FilmsDataRetriever;
 use App\Entity\Character;
+use App\Entity\Film;
 use App\Repository\CharacterRepository;
+use App\Repository\FilmRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class CharactersDataNegotiation
@@ -30,21 +33,37 @@ class CharactersDataNegotiation
     private $speciesDataNegotiation;
 
     /**
+     * @var FilmsDataRetriever
+     */
+    private $filmsDataRetriever;
+
+    /**
+     * @var FilmRepository
+     */
+    private $filmRepository;
+
+    /**
      * @param EntityManagerInterface $entityManger
      * @param CharacterRepository $characterRepository
      * @param CharactersDataRetriever $charactersDataRetriever
      * @param SpecieDataNegotiation $speciesDataNegotiation
+     * @param FilmsDataRetriever $filmsDataRetriever
+     * @param FilmRepository $filmRepository
      */
     public function __construct(
         EntityManagerInterface $entityManger,
         CharacterRepository $characterRepository,
         CharactersDataRetriever $charactersDataRetriever,
-        SpecieDataNegotiation $speciesDataNegotiation
+        SpecieDataNegotiation $speciesDataNegotiation,
+        FilmsDataRetriever $filmsDataRetriever,
+        FilmRepository $filmRepository
     ) {
         $this->entityManger = $entityManger;
         $this->characterRepository = $characterRepository;
         $this->charactersDataRetriever = $charactersDataRetriever;
         $this->speciesDataNegotiation = $speciesDataNegotiation;
+        $this->filmsDataRetriever = $filmsDataRetriever;
+        $this->filmRepository = $filmRepository;
     }
 
     /**
@@ -148,6 +167,39 @@ class CharactersDataNegotiation
             $this->entityManger->persist($character);
             $this->entityManger->flush();
         }
+
+        return $character;
+    }
+
+    /**
+     * Update the Species of the provided film.
+     *
+     * @param Character $character
+     *
+     * @return Character
+     */
+    public function updateFilms(Character $character) : Character
+    {
+        $characterResponse = $this->charactersDataRetriever->getByUrl($character->getUrl(), false);
+        $characterResponseFilms = $characterResponse->films ?? [];
+
+        foreach ($characterResponseFilms as $characterResponse) {
+            $filmInStorage = $this->filmRepository->findOneBy([
+                'url' => $characterResponse,
+            ]);
+
+            if ($filmInStorage instanceof Film) {
+                $character->addFilm($filmInStorage);
+            } else {
+                $filmMapped = $this->filmsDataRetriever->getByUrl($characterResponse);
+
+                if (false !== $filmMapped) {
+                    $character->addFilm($filmMapped);
+                }
+            }
+        }
+
+        $this->entityManger->flush();
 
         return $character;
     }

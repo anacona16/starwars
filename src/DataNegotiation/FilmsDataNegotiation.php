@@ -103,11 +103,16 @@ class FilmsDataNegotiation
      *
      * @param $url
      *
-     * @return array
+     * @return array|mixed|object
+     *
+     * @throws \JsonMapper_Exception
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
      */
-    public function getByUrl($url) : array
+    public function getByUrl($url)
     {
-        return $this->filmsDataRetriever->getByUrl($url);
+        return $this->filmsDataRetriever->getByUrl($url, false);
     }
 
     /**
@@ -120,7 +125,7 @@ class FilmsDataNegotiation
     public function updateCharacters(Film $film) : Film
     {
         $filmResponse = $this->getByUrl($film->getUrl());
-        $filmResponseCharacters = $filmResponse['characters'] ?? [];
+        $filmResponseCharacters = $filmResponse->characters ?? [];
 
         foreach ($filmResponseCharacters as $characterResponse) {
             $characterSaved = $this->charactersDataNegotiation->getByUrlAndSave($characterResponse);
