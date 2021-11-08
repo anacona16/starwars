@@ -44,7 +44,7 @@ class UserLoggedInEvent implements EventSubscriberInterface
      * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
      */
     public function onAuthenticationSuccess(AuthenticationEvent $event, $eventName) {
-        if (empty(($this->emailFrom) || empty($this->notificationEmail)) {
+        if (empty($this->emailFrom) || empty($this->notificationEmail)) {
             return;
         }
 
