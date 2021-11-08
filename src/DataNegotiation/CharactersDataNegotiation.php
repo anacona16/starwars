@@ -103,7 +103,7 @@ class CharactersDataNegotiation
                 // If the API was requested and the row is not in the database we can save it.
                 // This could be better if the API provides an unique ID for each result.
                 $checkCharacter = $this->characterRepository->findOneBy([
-                    'name' => $character->getName(),
+                    'url' => $character->getUrl(),
                 ]);
 
                 if (null === $checkCharacter) {
