@@ -19,15 +19,17 @@
                 </figure>
 
                 <h5>Characters</h5>
-                <ul class="list-group list-group-flush">
+                <ul class="list-group list-group-numbered">
                     {% for character in film.characters %}
                         <li class="list-group-item">
                             <a href="{{ path('characters_detail', {'id': character.id}) }}">{{ character.name }}</a>
                         </li>
-                    {% else %}
-                        <li class="list-group-item">There is not info about characters.</li>
                     {% endfor %}
                 </ul>
+
+                {% if character.characters|length < 1 %}
+                    <div class="alert alert-info">There is not info about characters.</div>
+                {% endif %}
             </div>
         </div>
     </div>

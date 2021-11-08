@@ -18,20 +18,22 @@
                 <hr>
 
                 <h5>Films</h5>
-                <ul class="list-group list-group-flush">
+                <ul class="list-group list-group-numbered">
                     {% for film in character.films %}
                         <li class="list-group-item">
                             <a href="{{ path('films_detail', {'id': film.id}) }}">{{ film.title }}</a>
                         </li>
-                    {% else %}
-                        <li class="list-group-item">There is not info about films.</li>
                     {% endfor %}
                 </ul>
+
+                {% if character.films|length < 1 %}
+                    <div class="alert alert-info">There is not info about films.</div>
+                {% endif %}
 
                 <hr>
 
                 <h5>Species</h5>
-                <ul class="list-group list-group-flush">
+                <ul class="list-group list-group-numbered">
                     {% for specie in character.species %}
                         <li class="list-group-item">
                             Name <strong>{{ specie.name }}</strong><br>
@@ -41,10 +43,12 @@
                             Hair colors <strong>{{ specie.hairColors }}</strong><br>
                             Eye colors <strong>{{ specie.hairColors }}</strong>
                         </li>
-                    {% else %}
-                        <li class="list-group-item">There is not info about species.</li>
                     {% endfor %}
                 </ul>
+
+                {% if character.species|length < 1 %}
+                    <div class="alert alert-info">There is not info about species.</div>
+                {% endif %}
             </div>
         </div>
     </div>
