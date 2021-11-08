@@ -60,6 +60,9 @@ class UserLoggedInEvent implements EventSubscriberInterface
         $this->mailer->send($email);
     }
 
+    /**
+     * @return string[]
+     */
     public static function getSubscribedEvents()
     {
         return [
