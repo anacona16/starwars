@@ -48,8 +48,10 @@ class FilmsController extends AbstractController
      */
     public function detail(Film $film, FilmsDataNegotiation $filmsDataNegotiation) : Response
     {
+        $totalCharactersInApi = $filmsDataNegotiation->countCharactersInApi($film);
+
         // Checking if the character list is empty, if so, we try to get the info from the API.
-        if (true === $film->getCharacters()->isEmpty()) {
+        if (true === $film->getCharacters()->isEmpty() || $totalCharactersInApi !== $film->getCharacters()->count()) {
             $film = $filmsDataNegotiation->updateCharacters($film);
         }
 

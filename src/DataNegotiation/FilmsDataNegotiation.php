@@ -116,6 +116,26 @@ class FilmsDataNegotiation
     }
 
     /**
+     * Counts the characters in a movie, if the total is different then we re download the info.
+     *
+     * @param Film $film
+     *
+     * @return int
+     *
+     * @throws \JsonMapper_Exception
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     */
+    public function countCharactersInApi(Film $film)
+    {
+        $filmResponse = $this->getByUrl($film->getUrl());
+        $filmResponseCharacters = $filmResponse->characters ?? [];
+
+        return count($filmResponseCharacters);
+    }
+
+    /**
      * Update the characters of the provided film.
      *
      * @param Film $film
